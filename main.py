@@ -1,10 +1,12 @@
 # Daniel Reeve    Student ID: 001990892
 
 from address_import import getAddressData
+from distance_import import getDistanceData
 from package_import import getPackageData
 
 if __name__ == '__main__':
 
+    print("\n")
     print("---------------------")
     print("WGUPS ROUTING PROGRAM")
     print("---------------------")
@@ -28,8 +30,8 @@ if __name__ == '__main__':
 
             getAddressData()
 
-        # elif option == "3":
-            # getDistanceData()
+        elif option == "3":
+            getDistanceData()
 
         elif option == "4":
             isExit = False

@@ -1,15 +1,19 @@
 import csv
 
+vertex_list = []
+
 
 # Address Class
 class Address:
+
     AddressList = []
 
-    def __init__(self, address):
+    def __init__(self, ID, address):
+        self.ID = ID
         self.address = address
 
     def __str__(self):  # overwrite print(Address) otherwise it will print object reference
-        return "%s" % self.address
+        return "%s, %s" % (self.ID, self.address)
 
 
 def loadAddressData(fileName):
@@ -17,9 +21,22 @@ def loadAddressData(fileName):
         addressData = csv.reader(addresses, delimiter=',')
         next(addressData)  # skip header
         for address in addressData:
-            aAddress = address[0]
+            aID = int(address[0])
+            aAddress = address[1]
 
-            Address.AddressList.append(aAddress)
+            a = Address(aID, aAddress)
+            Address.AddressList.insert(aID, a)
+
+
+def getVertex():
+    for i in Address.AddressList:
+        vertex = Address.AddressList.index(i)
+        vertex_list.append(vertex)
+
+    print('\nVertex List (nodes):')
+    print(vertex_list)
+
+    return vertex_list
 
 
 def getAddressData():
