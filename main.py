@@ -1,6 +1,8 @@
 # Daniel Reeve    Student ID: 001990892
 
 from package_import import getPackageData, myHash
+from address_import import getAddressData
+from distance_import import getDistanceData
 
 if __name__ == '__main__':
 
