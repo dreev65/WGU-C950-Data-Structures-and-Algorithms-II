@@ -1,8 +1,6 @@
 # Daniel Reeve    Student ID: 001990892
 
-from address_import import getAddressData
-from distance_import import getDistanceData
-from package_import import getPackageData
+from package_import import getPackageData, myHash
 
 if __name__ == '__main__':
 
@@ -25,14 +23,11 @@ if __name__ == '__main__':
         if option == "1":
             getPackageData()
         elif option == "2":
-            # search_input = int(input('Enter the package number: '))
-            # ChainingHashTable.search(search_input)
-
-            getAddressData()
-
+            search_input = int(input('Enter the package number: '))
+            test = myHash.lookup(search_input)
+            print("Package: ", test)
         elif option == "3":
-            getDistanceData()
-
+            getPackageData()
         elif option == "4":
             isExit = False
         else:

@@ -5,7 +5,6 @@ vertex_list = []
 
 # Address Class
 class Address:
-
     AddressList = []
 
     def __init__(self, ID, address):

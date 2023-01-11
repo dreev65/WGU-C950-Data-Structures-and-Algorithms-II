@@ -1,5 +1,6 @@
-from hash_table import ChainingHashTable
 import csv
+
+from hash_table import ChainingHashTable
 
 
 # Package Class
@@ -55,7 +56,7 @@ def getPackageData():
     # Fetch data from Hash Table
     print("\nPackages:")
     for i in range(len(myHash.table) + 1):
-        print("Package: {}".format(myHash.search(i + 1)))  # 1 to 41 is sent to myHash.search()
+        print("Package: {}".format(myHash.lookup(i + 1)))  # 1 to 41 is sent to myHash.search()
 
 
 # Return the package data

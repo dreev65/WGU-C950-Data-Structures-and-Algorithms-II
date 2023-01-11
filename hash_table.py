@@ -1,4 +1,5 @@
-# HashTable class using chaining.
+
+# Hash table class using chaining.
 class ChainingHashTable:
     # Constructor with optional initial capacity parameter.
     # Assigns all buckets with an empty list.
@@ -28,11 +29,10 @@ class ChainingHashTable:
 
     # Searches for an item with matching key in the hash table.
     # Returns the item if found, or None if not found.
-    def search(self, key):
+    def lookup(self, key):
         # get the bucket list where this key would be.
         bucket = hash(key) % len(self.table)
         bucket_list = self.table[bucket]
-        # print(bucket_list)
 
         # search for the key in the bucket list
         for kv in bucket_list:
@@ -52,3 +52,4 @@ class ChainingHashTable:
             # print (key_value)
             if kv[0] == key:
                 bucket_list.remove([kv[0], kv[1]])
+

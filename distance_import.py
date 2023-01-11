@@ -19,6 +19,12 @@ def loadDistanceData(fileName):
             DistanceList.append(distances)
 
 
+def lookup_distance(start, end):
+    distance = float(DistanceList[start][end])
+
+    return distance
+
+
 def getDistanceData():
     print("\nDistances:")
 
@@ -32,6 +38,7 @@ loadDistanceData('distance_file.csv')
 # return addresses list
 getDistanceData()
 
-
-print("\nSpecific rows:")
+print("\nPrint Specific Distance:")
 print(DistanceList[5][1])
+print("Lookup_Distance Search:")
+print(lookup_distance(5, 1))
