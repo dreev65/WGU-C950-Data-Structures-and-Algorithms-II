@@ -49,6 +49,15 @@ truck_two.append(format(myHash.lookup(36)))
 truck_two.append(format(myHash.lookup(38)))
 
 
+def deliverTruckOne():
+    return
+
+
+def deliverTruckTwo():
+    return
+
+
+
 def printTrucks():
     print("\nFirst Truck Deliveries:")
     for i in truck_one:
