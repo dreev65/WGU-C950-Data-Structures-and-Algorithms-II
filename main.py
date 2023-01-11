@@ -3,6 +3,7 @@
 from package_import import getPackageData, myHash
 from address_import import getAddressData
 from distance_import import getDistanceData
+from truck_deliveries import printTrucks
 
 if __name__ == '__main__':
 
