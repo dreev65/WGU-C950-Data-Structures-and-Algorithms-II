@@ -1,11 +1,11 @@
 import csv
 
 vertex_list = []
+AddressList = []
 
 
 # Address Class
 class Address:
-    AddressList = []
 
     def __init__(self, ID, address):
         self.ID = ID
@@ -24,12 +24,12 @@ def loadAddressData(fileName):
             aAddress = address[1]
 
             a = Address(aID, aAddress)
-            Address.AddressList.insert(aID, a)
+            AddressList.insert(aID, a)
 
 
 def getVertex():
-    for i in Address.AddressList:
-        vertex = Address.AddressList.index(i)
+    for i in AddressList:
+        vertex = AddressList.index(i)
         vertex_list.append(vertex)
 
     print('\nVertex List (nodes):')
@@ -41,7 +41,7 @@ def getVertex():
 def getAddressData():
     print("\nAddresses:")
 
-    for i in Address.AddressList:
+    for i in AddressList:
         print(i)
 
 

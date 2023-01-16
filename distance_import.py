@@ -3,7 +3,6 @@ import csv
 # Distance Class
 
 DistanceList = []
-distance_array = []
 
 
 class Distance:
@@ -42,3 +41,4 @@ print("\nPrint Specific Distance:")
 print(DistanceList[5][1])
 print("Lookup_Distance Search:")
 print(lookup_distance(5, 1))
+

@@ -1,6 +1,7 @@
 import datetime
 from package_import import myHash
-
+# from distance_import import DistanceList, lookup_distance
+from address_import import AddressList
 
 # Empty truck lists created
 truck_one = []
@@ -50,12 +51,31 @@ truck_two.append(format(myHash.lookup(38)))
 
 
 def deliverTruckOne():
-    return
+    print()
+    address1 = myHash.lookup(0)
+    for a1 in range(len(truck_one)):  # iterates through the truck list
+        p = truck_one[a1].split(',')
+        package_address = p[1]
+
+        # TODO: 1) find a way to compare the string address from the package to the address in AddressList
+        # TODO: 2) find a way to pull the address id from AddressList
+        # TODO: 3) use address id to get the distance between addresses to calculate shortest distance
+        # TODO: 4) deliver the package (with timestamp) and remove it from the truck
+
+        # pos = package_address in AddressList
+
+
+        # print statements
+        print("Truck One Package Address:", package_address)
+        # print(pos)
+
+
+    # delivery_time = distance / 18
+    # time_obj = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
 
 
 def deliverTruckTwo():
     return
-
 
 
 def printTrucks():
@@ -63,9 +83,10 @@ def printTrucks():
     for i in truck_one:
         print(i)
 
-    print("\nSecond Truck Deliveries:")
-    for i in truck_two:
-        print(i)
+    # print("\nSecond Truck Deliveries:")
+    # for i in truck_two:
+    #     print(i)
+
 
 printTrucks()
-
+deliverTruckOne()
