@@ -1,7 +1,8 @@
 import datetime
 from package_import import myHash
-# from distance_import import DistanceList, lookup_distance
-from address_import import AddressList
+from address_import import AddressDict
+from distance_import import DistanceList, lookup_distance
+
 
 # Empty truck lists created
 truck_one = []
@@ -52,27 +53,35 @@ truck_two.append(format(myHash.lookup(38)))
 
 def deliverTruckOne():
     print()
-    address1 = myHash.lookup(0)
-    for a1 in range(len(truck_one)):  # iterates through the truck list
-        p = truck_one[a1].split(',')
-        package_address = p[1]
+    address1 = list(AddressDict.keys())[0]
+    min_dist = 1000000
+    for a in range(len(truck_one)):  # iterates through the truck list
 
-        # TODO: 1) find a way to compare the string address from the package to the address in AddressList
-        # TODO: 2) find a way to pull the address id from AddressList
-        # TODO: 3) use address id to get the distance between addresses to calculate shortest distance
+        # compare the string address from the package to the address in AddressDict
+        # pull the address id from AddressDict
+        for key, val in AddressDict.items():  # finds the key based on value search for delivery address
+            p = truck_one[a].split(', ')
+            package_address = p[1]
+
+            if val == package_address:  # pulls the id
+                print("Truck One Package Address:", package_address)
+                print('Position:', key)
+
+            # TODO: 3) use address id (pos) to get the distance between addresses to calculate shortest distance
+            # TODO: check to see if correct min distance value is being calculated
+            address2 = key
+            distance = lookup_distance(address1, address2)
+            if min_dist > distance:
+                min_dist = distance
+
+            address1 = address2
+
+
         # TODO: 4) deliver the package (with timestamp) and remove it from the truck
-
-        # pos = package_address in AddressList
-
-
-        # print statements
-        print("Truck One Package Address:", package_address)
-        # print(pos)
-
-
-    # delivery_time = distance / 18
-    # time_obj = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
-
+        # delivery_time = distance / 18
+        # time_obj = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+    print('Min Distance:', min_dist)
+    print('New Address:', address2)
 
 def deliverTruckTwo():
     return

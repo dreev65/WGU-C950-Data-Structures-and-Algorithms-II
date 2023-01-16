@@ -1,7 +1,6 @@
 import csv
 
-vertex_list = []
-AddressList = []
+AddressDict = {}
 
 
 # Address Class
@@ -23,26 +22,14 @@ def loadAddressData(fileName):
             aID = int(address[0])
             aAddress = address[1]
 
-            a = Address(aID, aAddress)
-            AddressList.insert(aID, a)
-
-
-def getVertex():
-    for i in AddressList:
-        vertex = AddressList.index(i)
-        vertex_list.append(vertex)
-
-    print('\nVertex List (nodes):')
-    print(vertex_list)
-
-    return vertex_list
+            AddressDict[aID] = aAddress
 
 
 def getAddressData():
     print("\nAddresses:")
-
-    for i in AddressList:
-        print(i)
+    print(AddressDict)
+    # for key, value in AddressDict.items():
+    #     print(key, ':', value)
 
 
 # Load addresses to list
