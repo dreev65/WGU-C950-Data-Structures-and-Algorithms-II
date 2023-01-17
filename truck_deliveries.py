@@ -1,8 +1,8 @@
 import datetime
-from package_import import myHash
-from address_import import AddressDict
-from distance_import import DistanceList, lookup_distance
 
+from address_import import AddressDict
+from distance_import import lookup_distance
+from package_import import myHash
 
 # Empty truck lists created
 truck_one = []
@@ -13,8 +13,8 @@ first_truck_distances = []
 second_truck_distances = []
 
 # Times the trucks leave the hub
-first_leave_time = ['9:05:00']
-second_leave_time = ['10:30:00']
+first_truck_time = ['09:05:00']
+second_truck_time = ['10:30:00']
 
 # Load truck one
 truck_one.append(format(myHash.lookup(1)))
@@ -51,40 +51,53 @@ truck_two.append(format(myHash.lookup(36)))
 truck_two.append(format(myHash.lookup(38)))
 
 
-def deliverTruckOne():
+def deliverTruckOne():  # nearest neighbor algorithm
     print()
     address1 = list(AddressDict.keys())[0]
     min_dist = 1000000
+    lowest_dist = 0
     for a in range(len(truck_one)):  # iterates through the truck list
-
         # compare the string address from the package to the address in AddressDict
         # pull the address id from AddressDict
+        # use address id (pos) to get the distance between addresses to calculate shortest distance
+        # check to see if correct min distance value is being calculated (Expecting 20 : 1.9)
         for key, val in AddressDict.items():  # finds the key based on value search for delivery address
             p = truck_one[a].split(', ')
             package_address = p[1]
 
             if val == package_address:  # pulls the id
-                print("Truck One Package Address:", package_address)
-                print('Position:', key)
+                # print("Truck One Package Address:", package_address)
+                # print('Position:', key)
+                address2 = key
+                distance_between = lookup_distance(address1, address2)
 
-            # TODO: 3) use address id (pos) to get the distance between addresses to calculate shortest distance
-            # TODO: check to see if correct min distance value is being calculated
-            address2 = key
-            distance = lookup_distance(address1, address2)
-            if min_dist > distance:
-                min_dist = distance
+                # TODO: fix the loop for finding the minimum distance
+                if min_dist > distance_between:
+                    min_dist = distance_between
+                    if distance_between > min_dist:
+                        min_address = address2
+                        print('\nAddress1:', address1, 'Address2:', address2)
+                        print('Min Address:', min_address)
+                        print("Min Distance:", min_dist)
 
-            address1 = address2
+                #     # TODO: 4) deliver the package (with timestamp) and remove it from the truck
+                #     delivery_time = (min_dist / 18) * 60 * 60
+                #     time = str(datetime.timedelta(seconds=delivery_time))
+                #     first_truck_time.append(time)
+                #     print("Delivery Times:", first_truck_time)
 
 
-        # TODO: 4) deliver the package (with timestamp) and remove it from the truck
-        # delivery_time = distance / 18
-        # time_obj = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
-    print('Min Distance:', min_dist)
-    print('New Address:', address2)
-
-def deliverTruckTwo():
+def deliverTruckTwo():  # nearest neighbor algorithm
     return
+
+
+def getTotalTime():
+    total_time = datetime.timedelta()
+    for i in first_truck_time:
+        (h, m, s) = i.split(':')
+        d = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+        total_time += d
+    print(str(total_time))
 
 
 def printTrucks():
