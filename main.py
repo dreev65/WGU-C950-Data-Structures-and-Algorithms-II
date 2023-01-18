@@ -1,9 +1,6 @@
 # Daniel Reeve    Student ID: 001990892
 
-from package_import import getPackageData, myHash
-from address_import import getAddressData
-from distance_import import getDistanceData
-from truck_deliveries import printTrucks
+from package_import import myHash
 
 if __name__ == '__main__':
 
@@ -24,13 +21,13 @@ if __name__ == '__main__':
 
         # TODO: fill in the remaining options
         if option == "1":
-            getPackageData()
+            continue
         elif option == "2":
             search_input = int(input('Enter the package number: '))
             test = myHash.lookup(search_input)
             print("Package: ", test)
         elif option == "3":
-            getPackageData()
+            continue
         elif option == "4":
             isExit = False
         else:

@@ -50,14 +50,3 @@ myHash = ChainingHashTable()
 
 # Load packages to Hash Table
 loadPackageData('package_file.csv')
-
-
-def getPackageData():
-    # Fetch data from Hash Table
-    print("\nPackages:")
-    for i in range(len(myHash.table) + 1):
-        print("Package: {}".format(myHash.lookup(i + 1)))  # 1 to 41 is sent to myHash.search()
-
-
-# Return the package data
-getPackageData()
