@@ -71,15 +71,17 @@ def loadTrucks(run):
     findDistance(1)
     findDistance(2)
 
-
+# TODO: correct the nested dict to iterate through all package addresses
 # adds all the distances between each package into a list
 def findDistance(truck):
-    address1 = list(AddressDict.keys())[0]
+    address1 = 0
     address2 = -1
 
     if truck == 1:
+        next_address = -1
+        first_truck_distances[address1] = {}
         for i in range(len(truck_one)):  # iterates through the truck list
-            first_truck_distances[address1] = {}
+
             for key, val in AddressDict.items():  # finds the key based on value search for delivery address
                 p = truck_one[i].split(', ')
                 package_address = p[1]
@@ -91,25 +93,24 @@ def findDistance(truck):
 
                     # finds the distance between address1 and address2 and adds it to the dict
                     distance_between = lookup_distance(address1, address2)
-                    first_truck_distances[][address2] = distance_between
+                    first_truck_distances[address1][address2] = distance_between
 
+            # address1 = address2
 
+    elif truck == 2:
+        for a in range(len(truck_two)):  # iterates through the truck list
 
+            for key, val in AddressDict.items():  # finds the key based on value search for delivery address
+                p = truck_two[a].split(', ')
+                package_address = p[1]
 
-    # elif truck == 2:
-    #     for a in range(len(truck_two)):  # iterates through the truck list
-    #
-    #         for key, val in AddressDict.items():  # finds the key based on value search for delivery address
-    #             p = truck_two[a].split(', ')
-    #             package_address = p[1]
-    #
-    #             if val == package_address:  # pulls the id
-    #                 # print("Truck Two Package Address:", package_address)
-    #                 # print('Position:', key)
-    #                 address2 = key
-    #                 distance_between = lookup_distance(address1, address2)  # finds the distance between address1 and
-    #                 # address2
-    #                 second_truck_distances[address2] = distance_between
+                if val == package_address:  # pulls the id
+                    # print("Truck Two Package Address:", package_address)
+                    # print('Position:', key)
+                    address2 = key
+                    distance_between = lookup_distance(address1, address2)  # finds the distance between address1 and
+                    # address2
+                    second_truck_distances[address2] = distance_between
 
 
 # get the current time of a truck
@@ -141,7 +142,6 @@ def deliverTrucks():  # nearest neighbor algorithm
     # print('Min Address:', min_address)
     # print("Min Distance:", min_dist)
 
-# TODO: 4) deliver the package (with timestamp) and remove it from the truck
 
     # delivery_time = (min_dist / 18) * 60 * 60
     # time = str(datetime.timedelta(seconds=delivery_time))
