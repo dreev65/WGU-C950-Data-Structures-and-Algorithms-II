@@ -20,97 +20,93 @@ second_truck_distances = {}
 first_truck_time = ['08:00:00']
 second_truck_time = ['10:30:00']
 
+# package lists
+package_list_one = [1, 6, 13, 14, 15, 16, 19, 20, 25, 29, 30, 31, 34, 37, 40]
+package_list_two = [2, 3, 4, 5, 7, 8, 10, 11, 12, 17, 18, 22, 24, 36, 38]
+package_list_three = [9, 21, 23, 26, 27, 28, 32, 33, 35, 39]
 
-# Load trucks with packages
+
+# Load trucks with packages and update status to 'en route'
 def loadTrucks(run):
     if run == 1:
-        truck_one.append(format(myHash.lookup(1)))
-        truck_one.append(format(myHash.lookup(6)))
-        truck_one.append(format(myHash.lookup(13)))
-        truck_one.append(format(myHash.lookup(14)))
-        truck_one.append(format(myHash.lookup(15)))
-        truck_one.append(format(myHash.lookup(16)))
-        truck_one.append(format(myHash.lookup(19)))
-        truck_one.append(format(myHash.lookup(20)))
-        truck_one.append(format(myHash.lookup(25)))
-        truck_one.append(format(myHash.lookup(29)))
-        truck_one.append(format(myHash.lookup(30)))
-        truck_one.append(format(myHash.lookup(31)))
-        truck_one.append(format(myHash.lookup(34)))
-        truck_one.append(format(myHash.lookup(37)))
-        truck_one.append(format(myHash.lookup(40)))
+        for p in package_list_one:
+            temp = myHash.lookup(p)
+            temp.status = 'en route'
+            myHash.insert(p, temp)
+            truck_one.append(format(myHash.lookup(p)))
 
-        truck_two.append(format(myHash.lookup(2)))
-        truck_two.append(format(myHash.lookup(3)))
-        truck_two.append(format(myHash.lookup(4)))
-        truck_two.append(format(myHash.lookup(5)))
-        truck_two.append(format(myHash.lookup(7)))
-        truck_two.append(format(myHash.lookup(8)))
-        truck_two.append(format(myHash.lookup(10)))
-        truck_two.append(format(myHash.lookup(11)))
-        truck_two.append(format(myHash.lookup(12)))
-        truck_two.append(format(myHash.lookup(17)))
-        truck_two.append(format(myHash.lookup(18)))
-        truck_two.append(format(myHash.lookup(22)))
-        truck_two.append(format(myHash.lookup(24)))
-        truck_two.append(format(myHash.lookup(36)))
-        truck_two.append(format(myHash.lookup(38)))
+        for p in package_list_two:
+            temp = myHash.lookup(p)
+            temp.status = 'en route'
+            myHash.insert(p, temp)
+            truck_two.append(format(myHash.lookup(p)))
 
     elif run == 2:
-        truck_one.append(format(myHash.lookup(9)))
-        truck_one.append(format(myHash.lookup(21)))
-        truck_one.append(format(myHash.lookup(23)))
-        truck_one.append(format(myHash.lookup(26)))
-        truck_one.append(format(myHash.lookup(27)))
-        truck_one.append(format(myHash.lookup(28)))
-        truck_one.append(format(myHash.lookup(32)))
-        truck_one.append(format(myHash.lookup(33)))
-        truck_one.append(format(myHash.lookup(35)))
-        truck_one.append(format(myHash.lookup(39)))
+        for p in package_list_three:
+            temp = myHash.lookup(p)
+            temp.status = 'en route'
+            myHash.insert(p, temp)
+            truck_one.append(format(myHash.lookup(p)))
 
-    findDistance(1)
-    findDistance(2)
 
-# TODO: correct the nested dict to iterate through all package addresses
-# adds all the distances between each package into a list
-def findDistance(truck):
-    address1 = 0
-    address2 = -1
+# creates a list of all the distance between a start and end location
+def getDistances(start):
+    # print("\ngetDistances Packages:")
+    first_truck_distances[start] = {}
+    for i in range(len(truck_one)):
+        package = truck_one[i]
+        # print(package)
+        a = package.split(', ')
+        address = a[1]
+        # print(address)
+        for key, value in AddressDict.items():
+            if value == address:
+                end = key
+                distance = lookup_distance(start, end)
+                first_truck_distances[start][end] = distance
+    print("\nFirst Truck Distances:", first_truck_distances)
 
-    if truck == 1:
-        next_address = -1
-        first_truck_distances[address1] = {}
-        for i in range(len(truck_one)):  # iterates through the truck list
 
-            for key, val in AddressDict.items():  # finds the key based on value search for delivery address
-                p = truck_one[i].split(', ')
-                package_address = p[1]
+# finds the minimum distance and the package associated with it
+def getMinDistance():
+    new_start = -1
+    new_end = -1
+    min_dist = 10000
+    package_id = -1
+    for a_id, a_info in first_truck_distances.items():
+        start = a_id
+        # print("\nStart Address:", start)
+        for key in a_info:
+            end = key
+            distance = a_info[key]
+            # print("End Address:", end, "->", distance)
+            if distance < min_dist:
+                min_dist = distance
+                new_start = start
+                new_end = end
 
-                if val == package_address:  # pulls the id
-                    print("Truck One Package Address:", package_address)
-                    print('Position:', key)
-                    address2 = key
+                x = AddressDict[new_end]
+                for i in range(len(truck_one)):
+                    package = truck_one[i]
+                    a = package.split(', ')
+                    id = a[0]
+                    address = a[1]
+                    if address == x:
+                        package_id = id
 
-                    # finds the distance between address1 and address2 and adds it to the dict
-                    distance_between = lookup_distance(address1, address2)
-                    first_truck_distances[address1][address2] = distance_between
+    # print("\nMin_Dist:", min_dist)
+    # print("Start:", new_start)
+    # print("End:", new_end)
+    # print("Package Id:", package_id)
+    return new_start, new_end, min_dist, package_id
 
-            # address1 = address2
 
-    elif truck == 2:
-        for a in range(len(truck_two)):  # iterates through the truck list
-
-            for key, val in AddressDict.items():  # finds the key based on value search for delivery address
-                p = truck_two[a].split(', ')
-                package_address = p[1]
-
-                if val == package_address:  # pulls the id
-                    # print("Truck Two Package Address:", package_address)
-                    # print('Position:', key)
-                    address2 = key
-                    distance_between = lookup_distance(address1, address2)  # finds the distance between address1 and
-                    # address2
-                    second_truck_distances[address2] = distance_between
+# returns the total distance traveled in miles
+def getTotalDistance():
+    for d in first_truck_distances:
+        total = 0
+        total = d + total
+        return total
 
 
 # get the current time of a truck
@@ -122,40 +118,80 @@ def getCurrentTime(truck):
             d = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
             current_time += d
         print(str(current_time))
-    elif truck ==2:
+    elif truck == 2:
         for i in second_truck_time:
             (h, m, s) = i.split(':')
             d = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
             current_time += d
         print(str(current_time))
+    return current_time
 
 
 # deliver the packages
-def deliverTrucks():  # nearest neighbor algorithm
+def deliverTrucks(truck, start):  # nearest neighbor algorithm
+    if truck == 1:
+        # get the all the distances from the starting address
+        new_start = int(start)
+        print('\nNew Start:', new_start)
+        getDistances(new_start)
 
-    loadTrucks(1)
+        # get the minimum distance address
+        delivery = getMinDistance()
+        start = delivery[0]
+        end = delivery[1]
+        distance = delivery[2]
+        package_id = delivery[3]
+        print("TRUCK DELIVERY:")
+        print("Start:", start)
+        print("End:", end)
+        print("Distance:", distance)
+        print("Package Id:", package_id)
 
-    # if min_dist >= distance_between:
-    #     min_dist = distance_between
-    #     min_address = address2
-    # print('Address1:', address1, 'Address2:', address2)
-    # print('Min Address:', min_address)
-    # print("Min Distance:", min_dist)
+        # get the current deliver time
+        delivery_time = (distance / 18) * 60 * 60
+        time = str(datetime.timedelta(seconds=delivery_time))
+        first_truck_time.append(time)  # adds delivery time to first_truck_time list
+        print("Delivery Times:", first_truck_time)  # list of truck_one delivery times
+        current_time = getCurrentTime(1)  # total time
+
+        # remove the package from the truck
+        package_num = int(package_id)
+        print("Package_Number:", package_num)
+        p = str(myHash.lookup(package_num))
+        print("Truck_one:", truck_one)
+        print("Removable Package:")
+        print(p)
+        truck_one.remove(p)
+
+        # update the package record with the delivery time
+        temp = myHash.lookup(package_num)
+        temp.timestamp = current_time
+        temp.status = 'Delivered'
+        myHash.insert(end, temp)
+        print("New package record in hash table:")
+        print(myHash.lookup(end))
+
+        first_truck_distances.clear()
+        deliverTrucks(1, end)
 
 
-    # delivery_time = (min_dist / 18) * 60 * 60
-    # time = str(datetime.timedelta(seconds=delivery_time))
-    # first_truck_time.append(time)
-    # print("Delivery Times:", first_truck_time)
+loadTrucks(1)
+print("\n-------------------------------------------------------------------------------------")
+deliverTrucks(1, 0)
+print("Total Distance Traveled for Truck One:", getTotalDistance())
 
+# 20, 3595 Main St, Salt Lake City, UT, 84115, 10:30 AM, 37, en route, None
+# temp = myHash.lookup(20)
+# temp.status = 'en route'
+# myHash.insert(20, temp)
+# p = str(myHash.lookup(20))
+# print("\nRemovable Package:")
+# print(p)
 
-deliverTrucks()
-
-# print(AddressDict)
 #
-# print("\nFirst Truck Packages:", truck_one)
-# print("Second Truck Packages:", truck_two)
-
-print("\nFirst Truck Distances:")
-print(first_truck_distances)
-# print("Second Truck Distances:", second_truck_distances)
+# temp = myHash.lookup(20)
+# temp.timestamp = '9:00:00'
+# temp.status = 'Delivered'
+# myHash.insert(20, temp)
+# print("New package record in has table:")
+# print(myHash.lookup(20))

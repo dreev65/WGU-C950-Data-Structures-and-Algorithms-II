@@ -28,3 +28,4 @@ def loadAddressData(fileName):
 # Load addresses to list
 loadAddressData('address_file.csv')
 
+
