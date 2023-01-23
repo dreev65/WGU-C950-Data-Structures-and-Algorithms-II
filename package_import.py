@@ -2,8 +2,6 @@ import csv
 
 from hash_table import ChainingHashTable
 
-
-
 # Package Class
 class Package:
     def __init__(self, ID, address, city, state, zipcode, deadline, weight, status, timestamp):
@@ -44,7 +42,6 @@ def loadPackageData(fileName):
 
             # insert it into the hash table
             myHash.insert(pID, p)
-            print(p)
 
 
 # Hash table instance 
