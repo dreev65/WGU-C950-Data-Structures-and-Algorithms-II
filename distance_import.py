@@ -24,21 +24,7 @@ def lookup_distance(start, end):
     return distance
 
 
-def getDistanceData():
-    print("\nDistances:")
-
-    for i in DistanceList:
-        print(i)
-
-
 # Load distances to list
 loadDistanceData('distance_file.csv')
 
-# return addresses list
-getDistanceData()
-
-print("\nPrint Specific Distance:")
-print(DistanceList[5][1])
-print("Lookup_Distance Search:")
-print(lookup_distance(5, 1))
 

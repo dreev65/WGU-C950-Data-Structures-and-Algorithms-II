@@ -25,15 +25,7 @@ def loadAddressData(fileName):
             AddressDict[aID] = aAddress
 
 
-def getAddressData():
-    print("\nAddresses:")
-    print(AddressDict)
-    # for key, value in AddressDict.items():
-    #     print(key, ':', value)
-
-
 # Load addresses to list
 loadAddressData('address_file.csv')
 
-# return addresses list
-getAddressData()
+
