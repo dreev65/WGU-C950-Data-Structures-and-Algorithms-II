@@ -26,10 +26,13 @@ second_truck_time = []
 x = datetime.timedelta(hours=9.5)
 second_truck_time.append(x)
 
+# second run start time
+run_two_start = []
+
 # package lists
-package_list_one = [1, 5, 7, 13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 37, 40]
-package_list_two = [2, 3, 4, 6, 8, 10, 11, 12, 17, 18, 22, 24, 25, 36, 38]
-package_list_three = [9, 21, 23, 26, 27, 28, 32, 33, 35, 39]
+package_list_one = [1, 5, 7, 13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 37, 40]  # truck one
+package_list_two = [2, 3, 4, 6, 8, 10, 11, 12, 17, 18, 22, 24, 25, 36, 38]  # truck two
+package_list_three = [9, 21, 23, 26, 27, 28, 32, 33, 35, 39]  # truck one run two
 
 
 # Load trucks with packages and update status to 'en route'
@@ -38,11 +41,13 @@ def loadTrucks(run):
         for p in package_list_one:
             temp = myHash.lookup(p)
             temp.status = 'en route'
+            temp.timestamp = '8:00:00'
             truck_one.append(format(myHash.lookup(p)))
 
         for p in package_list_two:
             temp = myHash.lookup(p)
             temp.status = 'en route'
+            temp.timestamp = '9:30:00'
             truck_two.append(format(myHash.lookup(p)))
 
     elif run == 2:
@@ -50,6 +55,7 @@ def loadTrucks(run):
         for p in package_list_three:
             temp = myHash.lookup(p)
             temp.status = 'en route'
+            temp.timestamp = ''
             truck_one.append(format(myHash.lookup(p)))
 
 
@@ -186,11 +192,11 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             # Add the distance to the distance list for future total calculation
             truck_one_min_dist.append(distance)
 
-            print("TRUCK DELIVERY:")
-            print("Start:", start)
-            print("End:", end)
-            print("Distance:", distance)
-            print("Package Id:", package_id)
+            # print("TRUCK DELIVERY:")
+            # print("Start:", start)
+            # print("End:", end)
+            # print("Distance:", distance)
+            # print("Package Id:", package_id)
 
             # get the current deliver time
             delivery_time = (distance / 18)
@@ -223,7 +229,12 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             delivery_time = (distance_to_hub / 18)
             time = datetime.timedelta(hours=delivery_time)
             first_truck_time.append(time)  # adds delivery time to first_truck_time list
-            print('*************************************************')
+
+            # Add the final time for the first delivery (hub to hub) to the run_two_start list
+            # Used by main.py to find the status of the package based on the users input time
+            run_two_start.append(getCurrentTime(1))
+
+            # print('*************************************************')
 
     elif truck == 2:
         count = len(truck_two)
@@ -243,11 +254,11 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             # Add the distance to the distance list for future total calculation
             truck_two_min_dist.append(distance)
 
-            print("TRUCK DELIVERY:")
-            print("Start:", start)
-            print("End:", end)
-            print("Distance:", distance)
-            print("Package Id:", package_id)
+            # print("TRUCK DELIVERY:")
+            # print("Start:", start)
+            # print("End:", end)
+            # print("Distance:", distance)
+            # print("Package Id:", package_id)
 
             # get the current deliver time
             delivery_time = (distance / 18)
@@ -281,7 +292,7 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             delivery_time = (distance_to_hub / 18)
             time = datetime.timedelta(hours=delivery_time)
             second_truck_time.append(time)  # adds delivery time to first_truck_time list
-            print('*************************************************')
+            # print('*************************************************')
 
 
 # function to be called in main.py to run the deliveries
@@ -293,9 +304,3 @@ def runDelivery():
 
     loadTrucks(2)
     deliverTrucks(1, 0)
-
-    # print('\nMin Distances:')
-    # print(truck_one_min_dist)
-    # print(truck_two_min_dist)
-    # total = getTotalDistance(1) + getTotalDistance(2)
-    # print("Total Distance Traveled:", round(total, 2), "miles")
