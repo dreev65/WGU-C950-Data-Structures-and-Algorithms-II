@@ -39,6 +39,3 @@ if __name__ == '__main__':
             isExit = False
         else:
             print("Incorrect input, please try again!")
-
-
-
