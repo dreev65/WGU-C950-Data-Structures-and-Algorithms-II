@@ -56,6 +56,12 @@ def loadTrucks(run):
             temp = myHash.lookup(p)
             temp.status = 'en route'
             temp.timestamp = ''
+
+            # changes the address of package , so it can be treated as a delayed package
+            if p == package_list_three[0]:
+                temp.address = '410 S State St'
+                temp.zipcode = '84111'
+
             truck_one.append(format(myHash.lookup(p)))
 
 
