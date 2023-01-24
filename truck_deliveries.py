@@ -72,10 +72,9 @@ def getDistances(truck, start):
         first_truck_distances[start] = {}
         for i in range(len(truck_one)):
             package = truck_one[i]
-            # print(package)
             a = package.split(', ')
             address = a[1]
-            # print(address)
+
             for key, value in AddressDict.items():
                 if value == address:
                     end = key
@@ -86,10 +85,9 @@ def getDistances(truck, start):
         second_truck_distances[start] = {}
         for i in range(len(truck_two)):
             package = truck_two[i]
-            # print(package)
             a = package.split(', ')
             address = a[1]
-            # print(address)
+
             for key, value in AddressDict.items():
                 if value == address:
                     end = key
@@ -106,11 +104,11 @@ def getMinDistance(truck):
     if truck == 1:
         for a_id, a_info in first_truck_distances.items():
             start = a_id
-            # print("\nStart Address:", start)
+
             for key in a_info:
                 end = key
                 distance = a_info[key]
-                # print("End Address:", end, "->", distance)
+
                 if distance < min_dist:
                     min_dist = distance
                     new_start = start
@@ -128,11 +126,11 @@ def getMinDistance(truck):
     elif truck == 2:
         for a_id, a_info in second_truck_distances.items():
             start = a_id
-            # print("\nStart Address:", start)
+
             for key in a_info:
                 end = key
                 distance = a_info[key]
-                # print("End Address:", end, "->", distance)
+
                 if distance < min_dist:
                     min_dist = distance
                     new_start = start
@@ -185,7 +183,6 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
         if count > 0:
             # get all the distances from the starting address
             new_start = int(start)
-            # print('\nNew Start:', new_start)
             getDistances(1, new_start)
 
             # get the minimum distance address
@@ -198,34 +195,21 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             # Add the distance to the distance list for future total calculation
             truck_one_min_dist.append(distance)
 
-            # print("TRUCK DELIVERY:")
-            # print("Start:", start)
-            # print("End:", end)
-            # print("Distance:", distance)
-            # print("Package Id:", package_id)
-
             # get the current deliver time
             delivery_time = (distance / 18)
             time = datetime.timedelta(hours=delivery_time)
-            # print('Time:', time)
             first_truck_time.append(time)  # adds delivery time to first_truck_time list
             current_time = getCurrentTime(1)  # total time
 
             # remove the package from the truck
             package_num = int(package_id)
-            # print("Package_Number:", package_num)
             p = myHash.lookup(package_num)
-            # print("Truck_one:", truck_one)
-            # print("Removable Package:")
-            # print(p)
             truck_one.remove(str(p))
 
             # update the package record with the delivery time
             temp = myHash.lookup(package_num)
             temp.timestamp = current_time
             temp.status = 'Delivered'
-            # print("New package record in hash table:")
-            # print(myHash.lookup(package_num))
 
             first_truck_distances.clear()
             deliverTrucks(1, end)
@@ -240,14 +224,11 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             # Used by main.py to find the status of the package based on the users input time
             run_two_start.append(getCurrentTime(1))
 
-            # print('*************************************************')
-
     elif truck == 2:
         count = len(truck_two)
         if count > 0:
             # get the all the distances from the starting address
             new_start = int(start)
-            # print('\nNew Start:', new_start)
             getDistances(2, new_start)
 
             # get the minimum distance address
@@ -260,53 +241,37 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             # Add the distance to the distance list for future total calculation
             truck_two_min_dist.append(distance)
 
-            # print("TRUCK DELIVERY:")
-            # print("Start:", start)
-            # print("End:", end)
-            # print("Distance:", distance)
-            # print("Package Id:", package_id)
-
             # get the current deliver time
             delivery_time = (distance / 18)
             time = datetime.timedelta(hours=delivery_time)
-            # print('Time:', time)
             second_truck_time.append(time)  # adds delivery time to second_truck_time list
             current_time = getCurrentTime(2)  # total time
 
             # remove the package from the truck
             package_num = int(package_id)
-            # print("Package_Number:", package_num)
             p = myHash.lookup(package_num)
-            # print("Truck_two:", truck_two)
-            # print("Removable Package:")
-            # print(p)
             truck_two.remove(str(p))
 
             # update the package record with the delivery time
             temp = myHash.lookup(package_num)
             temp.timestamp = current_time
             temp.status = 'Delivered'
-            # myHash.insert(end, temp)
-            # print("New package record in hash table:")
-            # print(myHash.lookup(package_num))
 
             second_truck_distances.clear()
             deliverTrucks(2, end)
+
         else:  # gets the distance and time back to the hub
             distance_to_hub = lookup_distance(start, 0)
             truck_two_min_dist.append(distance_to_hub)
             delivery_time = (distance_to_hub / 18)
             time = datetime.timedelta(hours=delivery_time)
             second_truck_time.append(time)  # adds delivery time to first_truck_time list
-            # print('*************************************************')
 
 
 # function to be called in main.py to run the deliveries
 def runDelivery():
     loadTrucks(1)
-
     deliverTrucks(1, 0)
     deliverTrucks(2, 0)
-
     loadTrucks(2)
     deliverTrucks(1, 0)

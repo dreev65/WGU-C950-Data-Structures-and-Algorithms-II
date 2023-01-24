@@ -26,5 +26,3 @@ def lookup_distance(start, end):
 
 # Load distances to list
 loadDistanceData('distance_file.csv')
-
-
