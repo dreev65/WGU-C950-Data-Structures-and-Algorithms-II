@@ -168,11 +168,9 @@ def getCurrentTime(truck):
     if truck == 1:
         for i in first_truck_time:
             current_time += i
-        print("Current Time:", str(current_time))
     elif truck == 2:
         for i in second_truck_time:
             current_time += i
-        print("Current Time:", str(current_time))
     return current_time
 
 

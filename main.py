@@ -7,8 +7,7 @@ from truck_deliveries import runDelivery, getTotalDistance
 runDelivery()
 
 if __name__ == '__main__':
-
-    print("\n")
+    print("")
     print("---------------------")
     print("WGUPS ROUTING PROGRAM")
     print("---------------------")
