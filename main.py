@@ -1,8 +1,7 @@
 # Daniel Reeve    Student ID: 001990892
 
 from interface import userSearch
-from package_import import myHash
-from truck_deliveries import runDelivery, getTotalDistance
+from truck_deliveries import runDelivery
 
 runDelivery()
 
@@ -12,7 +11,10 @@ if __name__ == '__main__':
     print("WGUPS ROUTING PROGRAM")
     print("---------------------")
 
-    # loop until user is satisfied
+    # Creates the interface that the user sees when they run the program. Option one displays all the packages at
+    # their delivered status and the total mileage traveled. Option 2 calls userSearch(2), allows the user to search
+    # for one package at any time. Option 3 calls userSearch(2), allows the user to search
+    # for all packages at any time. Option 4 ends the program.
     isExit = True
     while isExit:
         print("\nOptions:")
@@ -23,14 +25,7 @@ if __name__ == '__main__':
         option = input("\nChose an option (1,2,3 or 4): ")
 
         if option == "1":
-            for i in range(1, 41):
-                package = myHash.lookup(i)
-                print("Package ID:", package.ID, "|", "Address:", package.address, "|", "City:", package.city, "|",
-                      "State:", package.state, "|", "Zip:", package.zipcode, "|", "Deadline:", package.deadline, "|",
-                      "Weight:", package.weight, "|", "Status:", package.status, "|", "Timestamp:", package.timestamp)
-            total = getTotalDistance(1) + getTotalDistance(2)
-            print("\nTotal Distance Traveled:", round(total, 2), "miles")
-
+            userSearch(1)
         elif option == "2":
             userSearch(2)
         elif option == "3":

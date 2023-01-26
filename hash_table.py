@@ -17,7 +17,6 @@ class ChainingHashTable:
 
         # update key if it is already in the bucket
         for kv in bucket_list:
-            # print (key_value)
             if kv[0] == key:
                 kv[1] = item
                 return True
@@ -36,7 +35,6 @@ class ChainingHashTable:
 
         # search for the key in the bucket list
         for kv in bucket_list:
-            # print (key_value)
             if kv[0] == key:
                 return kv[1]  # value
         return None
@@ -49,6 +47,5 @@ class ChainingHashTable:
 
         # remove the item from the bucket list if it is present.
         for kv in bucket_list:
-            # print (key_value)
             if kv[0] == key:
                 bucket_list.remove([kv[0], kv[1]])

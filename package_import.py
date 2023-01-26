@@ -2,8 +2,10 @@ import csv
 
 from hash_table import ChainingHashTable
 
-# Package Class
+
+# Creates the Package Class
 class Package:
+    # Constructor for the Package Class
     def __init__(self, ID, address, city, state, zipcode, deadline, weight, status, timestamp):
         self.ID = ID
         self.address = address
@@ -15,12 +17,15 @@ class Package:
         self.status = status
         self.timestamp = timestamp
 
-    def __str__(self):  # overwrite print(Package) otherwise it will print object reference
+    # overwrite print(Package) otherwise it will print object reference
+    def __str__(self):
         return "%s, %s, %s, %s, %s, %s, %s, %s, %s" % (
             self.ID, self.address, self.city, self.state, self.zipcode, self.deadline, self.weight, self.status,
             self.timestamp)
 
 
+# loadPackageData(filename) reads the package_file.csv and creates package objects that get added to the
+# hash table. The objects are added to the hash table in each iteration of the for loop
 def loadPackageData(fileName):
     with open(fileName) as packages:
         packageData = csv.reader(packages, delimiter=',')
@@ -38,14 +43,13 @@ def loadPackageData(fileName):
 
             # package object
             p = Package(pID, pAddress, pCity, pState, pZipcode, pDeadline, pWeight, pStatus, pTimestamp)
-            # print(p)
 
             # insert it into the hash table
             myHash.insert(pID, p)
 
 
-# Hash table instance 
+# Calls the ChainingHashTable function
 myHash = ChainingHashTable()
 
-# Load packages to Hash Table
+# Calls the loadPackageData function and passes the package_file.csv to be read from
 loadPackageData('package_file.csv')

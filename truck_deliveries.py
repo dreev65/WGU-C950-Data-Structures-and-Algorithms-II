@@ -17,7 +17,7 @@ second_truck_distances = {}
 truck_one_min_dist = []
 truck_two_min_dist = []
 
-# Times the trucks leave the hub
+# Adds the delivery start time to the truck time list
 first_truck_time = []
 x = datetime.timedelta(hours=8)
 first_truck_time.append(x)
@@ -26,16 +26,16 @@ second_truck_time = []
 x = datetime.timedelta(hours=9.5)
 second_truck_time.append(x)
 
-# second run start time
+# Creates an empty list for second run start time of truck one
 run_two_start = []
 
-# package lists
+# Manually loads package lists
 package_list_one = [1, 5, 7, 13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 37, 40]  # truck one
 package_list_two = [2, 3, 4, 6, 8, 10, 11, 12, 17, 18, 22, 24, 25, 36, 38]  # truck two
 package_list_three = [9, 21, 23, 26, 27, 28, 32, 33, 35, 39]  # truck one run two
 
 
-# Load trucks with packages and update status to 'en route'
+# Updates the status and timestamp of the package object for each package as it gets loaded to the trucks
 def loadTrucks(run):
     if run == 1:
         for p in package_list_one:
@@ -57,7 +57,7 @@ def loadTrucks(run):
             temp.status = 'en route'
             temp.timestamp = ''
 
-            # changes the address of package , so it can be treated as a delayed package
+            # changes the address of package 9, so it can be treated as a delayed package
             if p == package_list_three[0]:
                 temp.address = '410 S State St'
                 temp.zipcode = '84111'
@@ -69,12 +69,13 @@ def loadTrucks(run):
 def getDistances(truck, start):
 
     if truck == 1:
-        first_truck_distances[start] = {}
+        first_truck_distances[start] = {}  # creates empty truck distances list
+        # iterates through the truck packages and determines the street address of each package
         for i in range(len(truck_one)):
             package = truck_one[i]
             a = package.split(', ')
             address = a[1]
-
+            # finds the end address and the distance from the start to end address
             for key, value in AddressDict.items():
                 if value == address:
                     end = key
@@ -82,12 +83,13 @@ def getDistances(truck, start):
                     first_truck_distances[start][end] = distance
 
     elif truck == 2:
-        second_truck_distances[start] = {}
+        second_truck_distances[start] = {}  # creates empty truck distances list
+        # iterates through the truck packages and determines the street address of each package
         for i in range(len(truck_two)):
             package = truck_two[i]
             a = package.split(', ')
             address = a[1]
-
+            # finds the end address and the distance from the start to end address
             for key, value in AddressDict.items():
                 if value == address:
                     end = key
@@ -102,18 +104,22 @@ def getMinDistance(truck):
     min_dist = 10000
     package_id = -1
     if truck == 1:
+        # sets the start address
         for a_id, a_info in first_truck_distances.items():
             start = a_id
 
+            # sets the end address and distance
             for key in a_info:
                 end = key
                 distance = a_info[key]
 
+                # determines if the new distance is less than the min_dist and sets it as the new min_dist
                 if distance < min_dist:
                     min_dist = distance
                     new_start = start
                     new_end = end
 
+                    # sets the package id of the min_address
                     x = AddressDict[new_end]
                     for i in range(len(truck_one)):
                         package = truck_one[i]
@@ -124,18 +130,22 @@ def getMinDistance(truck):
                             package_id = id
 
     elif truck == 2:
+        # sets the start address
         for a_id, a_info in second_truck_distances.items():
             start = a_id
 
+            # sets the end address and distance
             for key in a_info:
                 end = key
                 distance = a_info[key]
 
+                # determines if the new distance is less than the min_dist and sets it as the new min_dist
                 if distance < min_dist:
                     min_dist = distance
                     new_start = start
                     new_end = end
 
+                    # sets the package id of the min_address
                     x = AddressDict[new_end]
                     for i in range(len(truck_two)):
                         package = truck_two[i]
@@ -148,7 +158,7 @@ def getMinDistance(truck):
     return new_start, new_end, min_dist, package_id
 
 
-# returns the total distance traveled in miles
+# returns the total distance traveled in miles for each truck
 def getTotalDistance(truck):
     if truck == 1:
         total = 0
@@ -174,10 +184,10 @@ def getCurrentTime(truck):
     return current_time
 
 
-# deliver the packages
-def deliverTrucks(truck, start):  # nearest neighbor algorithm
+# deliver the packages using a nearest neighbor algorithm
+def deliverTrucks(truck, start):
     if truck == 1:
-        count = len(truck_one)
+        count = len(truck_one)  # sets the count to the number of list items in truck_one
         if count > 0:
             # get all the distances from the starting address
             new_start = int(start)
@@ -209,8 +219,10 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             temp.timestamp = current_time
             temp.status = 'Delivered'
 
+            # clear the truck distance list and recursively call deliverTrucks()
             first_truck_distances.clear()
             deliverTrucks(1, end)
+
         else:  # gets the distance and time back to the hub
             distance_to_hub = lookup_distance(start, 0)
             truck_one_min_dist.append(distance_to_hub)
@@ -223,7 +235,7 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             run_two_start.append(getCurrentTime(1))
 
     elif truck == 2:
-        count = len(truck_two)
+        count = len(truck_two)  # sets the count to the number of list items in truck_two
         if count > 0:
             # get the all the distances from the starting address
             new_start = int(start)
@@ -255,6 +267,7 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             temp.timestamp = current_time
             temp.status = 'Delivered'
 
+            # clear the truck distance list and recursively call deliverTrucks()
             second_truck_distances.clear()
             deliverTrucks(2, end)
 
@@ -266,10 +279,10 @@ def deliverTrucks(truck, start):  # nearest neighbor algorithm
             second_truck_time.append(time)  # adds delivery time to first_truck_time list
 
 
-# function to be called in main.py to run the deliveries
+# Function to be called in main.py to run the deliveries
 def runDelivery():
-    loadTrucks(1)
-    deliverTrucks(1, 0)
-    deliverTrucks(2, 0)
-    loadTrucks(2)
-    deliverTrucks(1, 0)
+    loadTrucks(1)  # loads the first run on truck one and two
+    deliverTrucks(1, 0)  # delivers truck one
+    deliverTrucks(2, 0)  # delivers truck two
+    loadTrucks(2)  # loads the second run of truck one
+    deliverTrucks(1, 0)  # delivers the second run of truck one
