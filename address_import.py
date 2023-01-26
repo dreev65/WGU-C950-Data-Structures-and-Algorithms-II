@@ -17,6 +17,7 @@ class Address:
 
 # loadAddressData(filename) reads the address_file.csv and creates address objects that get added to the AddressDict.
 # The objects are added to the dictionary list as ID: Address values
+# Space-Time Complexity -> O(n)
 def loadAddressData(fileName):
     with open(fileName) as addresses:
         addressData = csv.reader(addresses, delimiter=',')
@@ -29,6 +30,7 @@ def loadAddressData(fileName):
 
 
 # Calls the loadAddressData function and passes the address_file.csv to be read from
+# Space-Time Complexity -> O(1)
 loadAddressData('address_file.csv')
 
 

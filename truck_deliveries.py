@@ -36,6 +36,7 @@ package_list_three = [9, 21, 23, 26, 27, 28, 32, 33, 35, 39]  # truck one run tw
 
 
 # Updates the status and timestamp of the package object for each package as it gets loaded to the trucks
+# Space-Time Complexity -> O(n^2)
 def loadTrucks(run):
     if run == 1:
         for p in package_list_one:
@@ -66,6 +67,7 @@ def loadTrucks(run):
 
 
 # creates a list of all the distance between a start and end location
+# Space-Time Complexity -> O(n^2)
 def getDistances(truck, start):
 
     if truck == 1:
@@ -98,6 +100,7 @@ def getDistances(truck, start):
 
 
 # finds the minimum distance and the package associated with it
+# Space-Time Complexity -> O(n^2)
 def getMinDistance(truck):
     new_start = -1
     new_end = -1
@@ -159,6 +162,7 @@ def getMinDistance(truck):
 
 
 # returns the total distance traveled in miles for each truck
+# Space-Time Complexity -> O(n)
 def getTotalDistance(truck):
     if truck == 1:
         total = 0
@@ -173,6 +177,7 @@ def getTotalDistance(truck):
 
 
 # get the current time of a truck
+# Space-Time Complexity -> O(n)
 def getCurrentTime(truck):
     current_time = datetime.timedelta()
     if truck == 1:
@@ -185,6 +190,7 @@ def getCurrentTime(truck):
 
 
 # deliver the packages using a nearest neighbor algorithm
+# Space-Time Complexity -> O(n)
 def deliverTrucks(truck, start):
     if truck == 1:
         count = len(truck_one)  # sets the count to the number of list items in truck_one

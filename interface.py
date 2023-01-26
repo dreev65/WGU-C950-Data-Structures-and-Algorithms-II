@@ -4,6 +4,7 @@ from truck_deliveries import run_two_start, first_truck_time, second_truck_time,
 
 
 # creates the interface options for the user
+# Space-Time Complexity -> O(n)
 def userSearch(user_option):
     # Option 1 in the main.py interface.
     if user_option == 1:
@@ -18,6 +19,7 @@ def userSearch(user_option):
 
     # Option 2 in the main.py interface. Gets the time and package number input from user and searches the package
     # status at that time.
+    # Space-Time Complexity -> O(1)
     elif user_option == 2:
         search_input = int(input('\nEnter the package number: '))  # get user package entry
         time_input = input('Enter a time in the format of HH:MM:SS: ')  # get user time entry
@@ -98,6 +100,7 @@ def userSearch(user_option):
 
         # iterates through for each package in the hash table. Gets the package delivery timestamp and compares the
         # user time to both the load time and delivery timestamp to determine the status of the package
+        # Space-Time Complexity -> O(n)
         for i in range(1, 41):
             index = i
             package = myHash.lookup(index)

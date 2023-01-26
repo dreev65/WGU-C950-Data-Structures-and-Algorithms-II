@@ -26,6 +26,7 @@ class Package:
 
 # loadPackageData(filename) reads the package_file.csv and creates package objects that get added to the
 # hash table. The objects are added to the hash table in each iteration of the for loop
+# Space-Time Complexity -> O(n)
 def loadPackageData(fileName):
     with open(fileName) as packages:
         packageData = csv.reader(packages, delimiter=',')
@@ -49,7 +50,9 @@ def loadPackageData(fileName):
 
 
 # Calls the ChainingHashTable function
+# Space-Time Complexity -> O(1)
 myHash = ChainingHashTable()
 
 # Calls the loadPackageData function and passes the package_file.csv to be read from
+# Space-Time Complexity -> O(1)
 loadPackageData('package_file.csv')
