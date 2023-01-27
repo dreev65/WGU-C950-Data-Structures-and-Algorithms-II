@@ -190,7 +190,7 @@ def getCurrentTime(truck):
 
 
 # deliver the packages using a nearest neighbor algorithm
-# Space-Time Complexity -> O(n)
+# Space-Time Complexity -> O(n^2)
 def deliverTrucks(truck, start):
     if truck == 1:
         count = len(truck_one)  # sets the count to the number of list items in truck_one
